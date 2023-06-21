@@ -1,7 +1,4 @@
-# Finance Dashboard App
+# Business Finance Tracker with A.I
 
-Build A MERN Finance Dashboard App
+Build A MERN Finance App with A.I integration. 
 
-Video: https://www.youtube.com/watch?v=uoJ0Tv-BFcQ
-
-For all related questions and discussions about this project, check out the discord: https://discord.gg/2FfPeEk2mX
