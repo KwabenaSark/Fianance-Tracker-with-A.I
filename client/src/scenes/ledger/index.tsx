@@ -9,26 +9,27 @@ import { Box, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Add from "./add";
 
-interface Switch {
-    openAdd: boolean;
-    closeAdd: boolean;
-  }
+
+export interface Switch {
+  SettingOn: boolean;
+  SettingOff: boolean;
+}
 const Ledger = () => {
   const { palette } = useTheme();
 //pop up add
-  const [state, setState] = useState<Switch>({
-    openAdd: false,
-    closeAdd: false,
-  });
+const [state, setState] = useState<Switch>({
+  SettingOn: false,
+  SettingOff: true,
+});
 
-  const open = () => {
-    setState({ openAdd: true,closeAdd:false});
-  };
-
-  const close = () => {
-    setState({ closeAdd: false, openAdd: true });
-  };
+function togglePopup() {
+  setState((prevState) => ({
+    SettingOn: !prevState.SettingOn,
+    SettingOff: !prevState.SettingOff,
+  }));
+}
 
   const { data: productData } = useGetProductsQuery();
   const { data: transactionData } = useGetTransactionsQuery();
@@ -115,8 +116,12 @@ const Ledger = () => {
               columns={productColumns}
             />
           </Box>
-          <Box margin="1rem" color={palette.primary[300]}> <AddCircleIcon  onClick={open} sx={{fontSize: "50px" , "&:hover": { color: palette.primary[100] } }} />
+          <Box margin="1rem" color={palette.primary[300]}> <AddCircleIcon  onClick={togglePopup} sx={{fontSize: "50px" , "&:hover": { color: palette.primary[100] } }} />
            </Box>
+      
+        {state.SettingOn && <Add />}
+        
+      
         </DashboardBox>
         <DashboardBox width="50%" height="90vh">
           <BoxHeader
