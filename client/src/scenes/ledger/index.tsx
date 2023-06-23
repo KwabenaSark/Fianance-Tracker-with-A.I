@@ -9,27 +9,48 @@ import { Box, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Add from "./add";
+import AddProduct from "./addProduct";
+import AddOrder from "./addOrders";
 
 
 export interface Switch {
-  SettingOn: boolean;
-  SettingOff: boolean;
+  SettingOn?: boolean;
+  SettingOff?: boolean;
+  SettingOn2?: boolean;
+  SettingOff2?: boolean;
 }
+
 const Ledger = () => {
   const { palette } = useTheme();
+
 //pop up add
 const [state, setState] = useState<Switch>({
   SettingOn: false,
   SettingOff: true,
+  SettingOn2: false,
+  SettingOff2: true,
 });
 
+
+
+
+
+//add 1
 function togglePopup() {
   setState((prevState) => ({
     SettingOn: !prevState.SettingOn,
     SettingOff: !prevState.SettingOff,
   }));
 }
+//add 2
+function togglePopup2() {
+  setState((prevState) => ({
+    SettingOn2: !prevState.SettingOn,
+    SettingOff2: !prevState.SettingOff,
+  }));
+}
+
+
 
   const { data: productData } = useGetProductsQuery();
   const { data: transactionData } = useGetTransactionsQuery();
@@ -89,9 +110,9 @@ function togglePopup() {
             sideText={`${productData?.length} products`}
           />
           <Box
-            mt="0.5rem"
-            p="0 0.5rem"
-            height="75%"
+             mt="1rem"
+             p="0 0.5rem"
+            height="80%"
             sx={{
               "& .MuiDataGrid-root": {
                 color: palette.grey[300],
@@ -116,10 +137,10 @@ function togglePopup() {
               columns={productColumns}
             />
           </Box>
-          <Box margin="1rem" color={palette.primary[300]}> <AddCircleIcon  onClick={togglePopup} sx={{fontSize: "50px" , "&:hover": { color: palette.primary[100] } }} />
+          <Box marginLeft="1rem" color={palette.primary[300]}> <AddCircleIcon  onClick={togglePopup} sx={{fontSize: "50px" , "&:hover": { color: palette.primary[100] } }} />
            </Box>
       
-        {state.SettingOn && <Add />}
+        {state.SettingOn && <AddProduct />}
         
       
         </DashboardBox>
@@ -156,6 +177,10 @@ function togglePopup() {
               columns={transactionColumns}
             />
           </Box>
+          <Box marginLeft="1rem" color={palette.primary[300]}> <AddCircleIcon  onClick={togglePopup2} sx={{fontSize: "50px" , "&:hover": { color: palette.primary[100] } }} />
+           </Box>
+      
+           {state.SettingOn2 && <AddOrder />}
         </DashboardBox>
       </FlexBetween>
     </>

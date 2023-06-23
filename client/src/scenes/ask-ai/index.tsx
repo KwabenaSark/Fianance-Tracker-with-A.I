@@ -3,6 +3,10 @@ import DashboardBox from "@/components/DashboardBox";
 
 import PlaceCenter from "@/components/PlaceCenter";
 import FlexBetween from "@/components/FlexBetween";
+// import { ChatOpenAI } from "langchain/chat_models/openai";
+// import { HumanChatMessage, SystemChatMessage } from "langchain/schema";
+
+// const chat = new ChatOpenAI({ temperature: 0 });
 
 type Props = {};
 
