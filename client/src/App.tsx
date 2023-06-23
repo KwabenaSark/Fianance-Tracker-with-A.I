@@ -26,7 +26,7 @@ function App() {
             <Box
               sx={{
                 width: "9%",
-                height: "100%",
+                height: "100vh",
                 "@media (max-width: 1200px)": {
                   display: "none",
                   width: "0%",
@@ -38,7 +38,7 @@ function App() {
             <Box
               sx={{
                 width: "91%",
-                height: "100%",
+                height: "100vh",
                 padding: "1rem 2rem 4rem 2rem",
                 "@media (max-width: 1200px)": {
                   width: "100%",
