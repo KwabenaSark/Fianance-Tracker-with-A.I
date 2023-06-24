@@ -16,6 +16,11 @@ import SellIcon from "@mui/icons-material/Sell";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import Balancesheet from "./balancesheet";
 import Profit from "./profit";
+import { useMemo } from "react";
+import { useGetKpisQuery } from "@/state/api";
+import {
+  useGetProductsQuery
+ } from "@/state/api";
 
 interface Switch {
   showBalanceSheet: boolean;
@@ -38,6 +43,49 @@ function Report() {
     setState({ showBalanceSheet: false, showProfitAndLoss: true });
   };
 
+  //totals calc
+  const { data } = useGetKpisQuery();
+ 
+
+  
+
+  const totalRevenue = useMemo(() => {
+    if (data) {
+      return data.reduce((sum, entry) => sum + entry.totalRevenue, 0);
+    }
+    return 0;
+  }, [data]);
+
+  const totalProfit = useMemo(() => {
+    if (data) {
+      return data.reduce((sum, entry) => sum + entry.totalProfit, 0);
+    }
+    return 0;
+  }, [data]);
+
+  const totalExpenses = useMemo(() => {
+    if (data) {
+      return data.reduce((sum, entry) => sum + entry.totalExpenses, 0);
+    }
+    return 0;
+  }, [data]);
+
+  const totalStock = useMemo(() => {
+    if (data) {
+      return data.reduce((sum, entry) => sum + entry.totalStock, 0);
+    }
+    return 0;
+  }, [data]);
+
+  console.log("Total Revenue:", totalRevenue);
+  console.log("Total Profit:", totalProfit);
+  console.log("Total Expenses:", totalExpenses);
+  console.log("Total Stock:", totalStock);
+  const { data: productData } = useGetProductsQuery();
+
+
+
+
   return (
     <Box gap="2rem">
       <Box>
@@ -51,10 +99,13 @@ function Report() {
               title="Total Income"
               subtitle="Gross profit"
               amount={
-                <Typography  paddingLeft="2.5rem"
-                variant="h1"
-                mb="1rem" color={palette.tertiary[500]}>
-                  45
+                <Typography
+                  paddingLeft="2.5rem"
+                  variant="h1"
+                  mb="1rem"
+                  color={palette.tertiary[500]}
+                >
+                  {totalRevenue}
                 </Typography>
               }
             ></ReportBox>
@@ -65,7 +116,7 @@ function Report() {
               icon={<MoneyOffIcon sx={{ fontSize: "28px" }} />}
               title="Total Expenses"
               subtitle="liability"
-              amount="35"
+              amount={totalProfit}
             ></ReportBox>
           </DashboardBox>
           <DashboardBox width={isSmallScreen ? "100%" : "calc(25% - 1rem)"}>
@@ -74,7 +125,7 @@ function Report() {
               icon={<SellIcon sx={{ fontSize: "28px" }} />}
               title="Total Stock"
               subtitle="inventory"
-              amount="45"
+              amount={productData?.length}
             ></ReportBox>
           </DashboardBox>
           <DashboardBox width={isSmallScreen ? "100%" : "calc(25% - 1rem)"}>
@@ -84,10 +135,13 @@ function Report() {
               title="Total Revenue "
               subtitle="net sales"
               amount={
-                <Typography  paddingLeft="2.5rem"
-                variant="h1"
-                mb="1rem" color={palette.primary[500]}>
-                  145
+                <Typography
+                  paddingLeft="2.5rem"
+                  variant="h1"
+                  mb="1rem"
+                  color={palette.primary[500]}
+                >
+                  {totalExpenses}
                 </Typography>
               }
             ></ReportBox>
@@ -99,36 +153,28 @@ function Report() {
           <Button
             onClick={handleBalanceSheetClick}
             sx={{
-              borderRadius:"1rem",
+              borderRadius: "1rem",
               color: palette.grey[900],
               backgroundColor: palette.grey[700],
               boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rgba(0,0,0,.4)",
             }}
           >
-             <Typography 
-             margin="1rem"
-                variant="h3"
-                mb="1rem" color="white">
-                Balance Sheet
-                </Typography>
-            
+            <Typography margin="1rem" variant="h3" mb="1rem" color="white">
+              Balance Sheet
+            </Typography>
           </Button>
           <Button
             onClick={handleProfitAndLossClick}
             sx={{
-              borderRadius:"1rem",
+              borderRadius: "1rem",
               color: palette.grey[900],
               backgroundColor: palette.grey[700],
               boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rgba(0,0,0,.4)",
             }}
           >
-            <Typography 
-             margin="1rem"
-                variant="h3"
-                mb="1rem" color="white">
-                 Profit and Loss
-                </Typography>
-           
+            <Typography margin="1rem" variant="h3" mb="1rem" color="white">
+              Profit and Loss
+            </Typography>
           </Button>
         </Columns>
       </Box>
