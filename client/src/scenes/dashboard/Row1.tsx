@@ -56,10 +56,21 @@ const Row1 = () => {
           revenue: revenue,
           profit: (revenue - expenses).toFixed(2),
         };
+       
       })
     );
   }, [data]);
+  
+  //exp
+  const revenueSum = useMemo(() => {
+    if (revenue) {
+      return revenue.reduce((sum, entry) => sum + entry.revenue, 0);
+    }
+    return 0;
+  }, [revenue]);
 
+  console.log("Sum of Revenue:", revenueSum);
+  
   return (
     <>
       <DashboardBox gridArea="a">

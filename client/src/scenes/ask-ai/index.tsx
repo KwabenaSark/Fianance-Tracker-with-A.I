@@ -5,6 +5,8 @@ import PlaceCenter from "@/components/PlaceCenter";
 import FlexBetween from "@/components/FlexBetween";
 import { useEffect, useState } from "react";
 import Columns from "@/components/Columns";
+
+
 // import { ChatOpenAI } from "langchain/chat_models/openai";
 // import { HumanChatMessage, SystemChatMessage } from "langchain/schema";
 
@@ -22,6 +24,8 @@ const AskAi = (props: Props) => {
   };
 
   useEffect(() => {
+
+    //AI Model
     async function query(data: any) {
       const response = await fetch(
         "https://api-inference.huggingface.co/models/google/flan-t5-base",
@@ -35,29 +39,34 @@ const AskAi = (props: Props) => {
       );
 
       const result = await response.json();
-      setResponse(result);
+      setResponse(result );
     }
 
+   
+
+    const context = ""; // Set the initial context here
+
     if (queryInput !== "") {
-      query({ inputs: queryInput });
+      const fullInput = `${context} ${queryInput}`; // Concatenate the context and query input
+      query({ inputs: fullInput });
     }
   }, [queryInput]);
-  
- 
+
   //textfield color
   const inputProps = {
     style: {
-      backgroundColor:"#45444d",
-   
-     color:palette.grey[100],
+      backgroundColor: "#45444d",
+
+      color: palette.grey[100],
       width: "80%",
       borderRadius: "1rem",
-       boxShadow: 'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px',
+      boxShadow:
+        "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
     }, // Specify the desired text color here
   };
-//label style
+  //label style
   const inputLabelProps = {
-    style: { color: palette.grey[100], fontWeight:"bold" }, // Specify the desired label color here
+    style: { color: palette.grey[100], fontWeight: "bold" }, // Specify the desired label color here
   };
 
   return (

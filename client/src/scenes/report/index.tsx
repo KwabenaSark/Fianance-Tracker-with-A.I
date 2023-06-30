@@ -77,11 +77,19 @@ function Report() {
     return 0;
   }, [data]);
 
+  // Calculate sum of product prices
+  const { data: productData } = useGetProductsQuery();
+  const productPrices = productData?.map((product) => product.price) || [];
+  const totalProductPrice = productPrices.reduce(
+    (acc, price) => acc + price,
+    0
+  );
+
   console.log("Total Revenue:", totalRevenue);
   console.log("Total Profit:", totalProfit);
   console.log("Total Expenses:", totalExpenses);
-  console.log("Total Stock:", totalStock);
-  const { data: productData } = useGetProductsQuery();
+  console.log("Total Stock:", totalProductPrice);
+
 
 
 
@@ -125,7 +133,7 @@ function Report() {
               icon={<SellIcon sx={{ fontSize: "28px" }} />}
               title="Total Stock"
               subtitle="inventory"
-              amount={productData?.length}
+              amount={ totalProductPrice.toFixed(0)}
             ></ReportBox>
           </DashboardBox>
           <DashboardBox width={isSmallScreen ? "100%" : "calc(25% - 1rem)"}>

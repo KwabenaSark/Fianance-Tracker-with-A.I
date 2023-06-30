@@ -75,6 +75,8 @@ function togglePopup2() {
     },
   ];
 
+
+
   const transactionColumns = [
     {
       field: "_id",
@@ -100,6 +102,10 @@ function togglePopup2() {
         (params.value as Array<string>).length,
     },
   ];
+
+   
+
+   
 
   return (
     <>

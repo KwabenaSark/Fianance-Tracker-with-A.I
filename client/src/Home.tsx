@@ -5,7 +5,6 @@ import FlexBetween from "@/components/FlexBetween";
 import DashboardBox from "./components/DashboardBox";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
-import ReactDOM from 'react-dom';
 
 const Home = () => {
   const { palette } = useTheme();
@@ -13,7 +12,7 @@ const Home = () => {
 
   
     const handleClick = () => {
-        ReactDOM.render(<App />, document.getElementById('root'));
+       
     };
 
   return (

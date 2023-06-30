@@ -1,9 +1,10 @@
 import Columns from "@/components/Columns";
 import FlexBetween from "@/components/FlexBetween";
-import InlineGrid from "@/components/InlineGrid";
 import { Box, Typography,Button,useTheme } from "@mui/material";
-import React from "react";
+import React, { useMemo } from "react";
 import IosShareIcon from "@mui/icons-material/IosShare";
+import { useGetKpisQuery, useGetProductsQuery } from "@/state/api";
+import { GridCellParams } from "@mui/x-data-grid";
 
 
 const Balancesheet = () => {
@@ -44,6 +45,51 @@ const Balancesheet = () => {
     window.print();
    };
 
+
+   //calculations metrics
+   const { data } = useGetKpisQuery();
+
+   const totalRevenue = useMemo(() => {
+     if (data) {
+       return data.reduce((sum, entry) => sum + entry.totalRevenue, 0);
+     }
+     return 0;
+   }, [data]);
+ 
+   const totalProfit = useMemo(() => {
+     if (data) {
+       return data.reduce((sum, entry) => sum + entry.totalProfit, 0);
+     }
+     return 0;
+   }, [data]);
+ 
+   const totalExpenses = useMemo(() => {
+     if (data) {
+       return data.reduce((sum, entry) => sum + entry.totalExpenses, 0);
+     }
+     return 0;
+   }, [data]);
+ 
+   // Calculate sum of product prices
+   const { data: productData } = useGetProductsQuery();
+   const productPrices = productData?.map((product) => product.price) || [];
+   const totalProductPrice = productPrices.reduce(
+     (acc, price) => acc + price,
+     0
+   );
+  
+ 
+   console.log("Total Revenue:", totalRevenue);
+   console.log("Total Profit:", totalProfit);
+   console.log("Total Expenses:", totalExpenses);
+   console.log("Total Stock:", totalProductPrice);
+  //  console.log("Total Stock:", totalStock);
+  const tot = totalProductPrice + totalRevenue
+
+const totalAsset:any = tot.toFixed(0);
+
+const equity =  totalAsset - totalProfit;
+const totalLia = totalProfit + equity ;
   return (
     <Box margin="2rem"  height="51vh">
      
@@ -65,36 +111,46 @@ const Balancesheet = () => {
           <Typography variant="h4">Assets:</Typography>
           <FlexBetween>
             <Typography variant="h5">- Total Stock:</Typography>
-            <Typography variant="h5">- Total Stock:</Typography>
+           {/* for future ajustement put this on the left side */}
+            <Typography  variant="h5"> {totalProductPrice.toFixed(0)}</Typography>
+          
           </FlexBetween>
+          <Box>
+          <FlexBetween>
+            <Typography variant="h5">- Total Profit:</Typography>
+            <Typography variant="h5">{totalRevenue}</Typography>
+          </FlexBetween>
+          </Box>
         </Box>
 
         <Box>
+          <Box>
           <Typography variant="h4">Liabilities and Equity:</Typography>
-          <FlexBetween>
-            <Typography variant="h5">- Total Revenue:</Typography>
-            <Typography variant="h5"> [totalRevenue]:</Typography>
-          </FlexBetween>
+          </Box>
+          <Box>
           <FlexBetween>
             <Typography variant="h5">- Total Expenses:</Typography>
-            <Typography variant="h5"> [totalExpenses]</Typography>
+            <Typography variant="h5">{ totalProfit}</Typography>
           </FlexBetween>
           <FlexBetween>
-            <Typography variant="h5">- Total Profit:</Typography>
-            <Typography variant="h5">[totalProfit]</Typography>
+            <Typography variant="h5">- Total Equity:</Typography>
+            <Typography variant="h5">{ equity}</Typography>
           </FlexBetween>
+          </Box>
+         
         </Box>
 
         <Box>
           <FlexBetween>
             <Typography variant="h4">Total Assets:</Typography>
-            <Typography variant="h4"> [totalStock]</Typography>
+            <Typography variant="h4"> {totalAsset}</Typography>
           </FlexBetween>
           <FlexBetween>
-            <Typography variant="h4">Total Liabilities and Equity:</Typography>
+            <Typography variant="h4">Total Liabilities:</Typography>
             <Typography variant="h4">
               {" "}
-              [totalRevenue + totalExpenses + totalProfit]
+             
+              {  totalLia} 
             </Typography>
           </FlexBetween>
         </Box>
