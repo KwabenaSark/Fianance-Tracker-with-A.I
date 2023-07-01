@@ -12,12 +12,15 @@ import Sidebar from "./scenes/sidebar";
 import AskAi from "./scenes/ask-ai";
 import Report from "./scenes/report";
 import Ledger from "./scenes/ledger";
+import Home from "./scenes/Home";
 
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);
 
+  //popup
   return (
     <div className="app">
+      <Home />
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
