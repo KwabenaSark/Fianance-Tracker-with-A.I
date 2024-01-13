@@ -6,8 +6,18 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "start": "nodemon index.js"
   },
+
+  "repository": {
+          "type": "git",
+          "url": "git+https://github.com/KwabenaSark/Fianance-Tracker-with-A.I.git"
+      },
+      
+      "bugs": {
+          "url": "https://github.com/KwabenaSark/Fianance-Tracker-with-A.I/issues"
+      },
+      "homepage": "https://github.com/KwabenaSark/Fianance-Tracker-with-A.I#readme",
   "keywords": [],
   "author": "",
   "license": "ISC",
